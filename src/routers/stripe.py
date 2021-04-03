@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response,Request
+from fastapi import APIRouter, HTTPException
 # from ..dependencies import get_token_header
 import json
 import os
@@ -147,7 +147,6 @@ def get_item():
 @router.get("/get-goods/{item_id}")
 def get_single_item(item_id:str):
   item_id = item_id.lower()
-  print(f"serch:{item_id}")
   if not item_id or (item_id not in [x['name'] for x in DefaultItems]):
     return HTTPException(detail="no such items", status_code=404)
   return DefaultItems[find_index_by_key(DefaultItems,'name',item_id)]

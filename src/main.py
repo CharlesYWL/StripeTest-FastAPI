@@ -3,7 +3,7 @@ import uvicorn
 
 from fastapi import FastAPI,Depends
 from pydantic import BaseModel
-from routers import stripe
+from routers import stripe,paypal
 from fastapi.middleware.cors import CORSMiddleware
 
 # app = FastAPI(dependencies=[Depends(get_query_token)])
@@ -33,6 +33,7 @@ class Item(BaseModel):
 
 # include url here
 app.include_router(stripe.router)
+app.include_router(paypal.router)
 
 @app.get("/")
 def read_root():
