@@ -47,7 +47,7 @@ def calculate_order_amount(items):
   return 0
 
 
-YOUR_CHECKOUTURL = 'http://localhost:3002/order'
+YOUR_CHECKOUTURL = 'https://payment-ui-nextjs-q7wgrl1si-charlesywl.vercel.app/order'
 
 
 DefaultItems = [
