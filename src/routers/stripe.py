@@ -48,7 +48,7 @@ def calculate_order_amount(items):
 
 
 YOUR_CHECKOUTURL = 'https://payment-ui-nextjs-q7wgrl1si-charlesywl.vercel.app/order'
-
+VUE_CHECKOUTURL = 'https://payment-ui-vue-gk1314huc-charlesywl.vercel.app/order'
 
 DefaultItems = [
 { "name":"sampletest0" ,"data":{
@@ -74,6 +74,7 @@ DefaultItems = [
            }
          }},
 ]
+
 EmptyItem = {
            'currency': 'usd',
            'unit_amount': 0,
@@ -117,6 +118,29 @@ def create_checkout_session_single(item:Item):
   except Exception as e:
     raise HTTPException(status_code=404, detail="some error on server side")
 
+@router.post("/create-checkout-session-single-vue")
+def create_checkout_session_single_vue(item:Item):
+  new_line_items = []
+  item.id = item.id.lower()
+  if item.id not in [x['name'] for x in DefaultItems]:
+    raise HTTPException(status_code=404, detail="Item not found")
+  new_line_items.append(
+    {
+      'price_data':DefaultItems[find_index_by_key(DefaultItems,'name',item.id)]['data'],
+      'quantity': item.quantity or 1,
+    }
+  )
+  try:
+    checkout_session = stripe.checkout.Session.create(
+      payment_method_types=['card'],
+      line_items=new_line_items,
+      mode='payment',
+      success_url=VUE_CHECKOUTURL + '?success=true',
+      cancel_url=VUE_CHECKOUTURL + '?canceled=true',
+    )
+    return ({'id': checkout_session.id})
+  except Exception as e:
+    raise HTTPException(status_code=404, detail="some error on server side")
 
 @router.post("/create-checkout-session")
 async def create_checkout_session(items:Items):
@@ -139,6 +163,8 @@ async def create_checkout_session(items:Items):
     return ({'id': checkout_session.id})
   except Exception as e:
     raise HTTPException(status_code=404, detail="some error on server side")
+
+
 
 @router.get("/get-goods")
 def get_item():
