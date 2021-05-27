@@ -53,27 +53,63 @@ def calculate_order_amount(items):
 YOUR_CHECKOUTURL = 'https://payment-ui-nextjs.vercel.app/order'
 VUE_CHECKOUTURL = 'https://payment-ui-vue.vercel.app/order'
 
+# {name:all lower char,data:{...}}
 DefaultItems = [
-    {"name": "sampletest0", "data": {
+    {"name": "kith-for-vault-by-vans-og-classic-slip-on-lx", "data": {
         'currency': 'usd',
-        'unit_amount': 500,
+        'unit_amount': 9000,
         'product_data': {
-            'name': 'SampleTest0',
-            'images': ['https://i.imgur.com/u1R691i.png'],
+            'name': 'Vans OG Classic Slip On LX',
+            'images': ['https://i.imgur.com/kv63LhH.jpg'],
+            'category': 'shoe'
         }}, },
-    {"name": "sampletest1", "data": {
+    {"name": "nike-air-structure", "data": {
         'currency': 'usd',
-        'unit_amount': 1500,
+        'unit_amount': 12000,
         'product_data': {
-            'name': 'SampeTest1',
-            'images': ['https://i.imgur.com/57eqR91.jpg'],
+            'name': 'Nike Air Structure',
+            'images': ['https://i.imgur.com/BltkCS7.jpg'],
+            'category': 'shoe'
+
         }}},
-    {"name": "sampletest2", "data": {
+    {"name": "adidas-ultraboost-1-dna", "data": {
         'currency': 'usd',
-        'unit_amount': 3500,
+        'unit_amount': 18000,
         'product_data': {
-            'name': 'SampeTest3',
-            'images': ['https://i.imgur.com/IX981c4.png'],
+            'name': 'adidas Ultraboost 1.0 DNA',
+            'images': ['https://i.imgur.com/91NhCoY.jpg'],
+            'category': 'shoe'
+
+        }
+    }},
+    {"name": "kith-sunflower-tee", "data": {
+        'currency': 'usd',
+        'unit_amount': 6500,
+        'product_data': {
+            'name': 'Kith Sunflower Tee',
+            'images': ['https://i.imgur.com/ZGwDmqA.jpg'],
+            'category': 'tee'
+
+        }
+    }},
+    {"name": "kith-sunflower-tee-black", "data": {
+        'currency': 'usd',
+        'unit_amount': 6500,
+        'product_data': {
+            'name': 'Kith Sunflower Tee Black',
+            'images': ['https://i.imgur.com/CodswYN.jpg'],
+            'category': 'tee'
+
+        }
+    }},
+    {"name": "kith-fish-tank-classic-logo-tee", "data": {
+        'currency': 'usd',
+        'unit_amount': 6500,
+        'product_data': {
+            'name': 'Kith Fish Tank Classic Logo Tee',
+            'images': ['https://i.imgur.com/dsJCnZ1.jpg'],
+            'category': 'tee'
+
         }
     }},
 ]
