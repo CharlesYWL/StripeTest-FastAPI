@@ -22,25 +22,31 @@ router = APIRouter(
 class Item(BaseModel):
     id: str
     quantity: Optional[int] = 1
+    target: Optional[str] = "react"
 
     class Config:
         schema_extra = {
             "example": {
                 "id": "kith-sunflower-tee-black",
-                "quantity": 1
+                "quantity": 1,
+                "target": "react"
             }
         }
 
 
 class Items(BaseModel):
     items: List[Item] = []
+    target: Optional[str] = "react"
 
     class Config:
         schema_extra = {
-            "items": [
-                {"id": "kith-sunflower-tee-black", "quantity": 1},
-                {"id": "nike-air-structure", "quantity": 2}
-            ]
+            "example": {
+                "items": [
+                    {"id": "kith-sunflower-tee-black", "quantity": 1},
+                    {"id": "nike-air-structure", "quantity": 2}
+                ],
+                "target": "react"
+            }
         }
 
 
@@ -51,8 +57,12 @@ def calculate_order_amount(items):
     return 0
 
 
-YOUR_CHECKOUTURL = 'https://payment-ui-nextjs.vercel.app/order'
+REACT_CHECKOUTURL = 'https://payment-ui-nextjs.vercel.app/order'
 VUE_CHECKOUTURL = 'https://payment-ui-vue.vercel.app/order'
+ANGULAR_CHECKOUTURL = 'https://paymentui-angulra.vercel.app/order'
+
+CHECKOUTURL = {"react": REACT_CHECKOUTURL,
+               "vue": VUE_CHECKOUTURL, "angular": ANGULAR_CHECKOUTURL}
 
 # {name:all lower char,data:{...}}
 DefaultItems = [
@@ -137,6 +147,13 @@ def test(item: Item):
 
 @router.post("/create-checkout-session-single")
 def create_checkout_session_single(item: Item):
+    # Checkout link here:
+    try:
+        CheckoutLink = CHECKOUTURL[item.target]
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=404, detail="Invaild Target UTL")
+
     new_line_items = []
     item.id = item.id.lower()
     if item.id not in [x['name'] for x in DefaultItems]:
@@ -152,8 +169,8 @@ def create_checkout_session_single(item: Item):
             payment_method_types=['card'],
             line_items=new_line_items,
             mode='payment',
-            success_url=YOUR_CHECKOUTURL + '?success=true',
-            cancel_url=YOUR_CHECKOUTURL + '?canceled=true',
+            success_url=CheckoutLink + '?success=true',
+            cancel_url=CheckoutLink + '?canceled=true',
         )
         return ({'id': checkout_session.id})
     except Exception as e:
@@ -190,6 +207,11 @@ def create_checkout_session_single_vue(item: Item):
 
 @router.post("/create-checkout-session")
 async def create_checkout_session(items: Items):
+    try:
+        CheckoutLink = CHECKOUTURL[items.target]
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=404, detail="Invaild Target UTL")
     new_line_items = []
     for item in items.items:
         item.id = item.id.lower()
@@ -204,8 +226,8 @@ async def create_checkout_session(items: Items):
             payment_method_types=['card'],
             line_items=new_line_items,
             mode='payment',
-            success_url=YOUR_CHECKOUTURL + '?success=true',
-            cancel_url=YOUR_CHECKOUTURL + '?canceled=true',
+            success_url=CheckoutLink + '?success=true',
+            cancel_url=CheckoutLink + '?canceled=true',
         )
         return ({'id': checkout_session.id})
     except Exception as e:
