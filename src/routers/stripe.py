@@ -8,7 +8,8 @@ from typing import Optional, List
 # stripe setting
 import stripe
 
-stripe.api_key = "sk_test_51IZipEIbg2Wdh6h2bgIimgX4iUHfrfdQZeVMqdtf41RYjaMwiYCCfLIaElbT0xpxY51Lk7ZVquVIAQ7LcsdQwnQ600ArautoBa"
+stripe.api_key = 'sk_test_51IZipEIbg2Wdh6h2bgIimgX4iUHfrfdQZeVMqdtf41RYjaMwiYCCfLIaElbT0xpxY51Lk7ZVquVIAQ7LcsdQwnQ600ArautoBa'
+
 
 router = APIRouter(
     prefix="/stripe",
@@ -25,7 +26,7 @@ class Item(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "id": "SampleTest0",
+                "id": "kith-sunflower-tee-black",
                 "quantity": 1
             }
         }
@@ -37,8 +38,8 @@ class Items(BaseModel):
     class Config:
         schema_extra = {
             "items": [
-                {"id": "sampletest0", "quantity": 1},
-                {"id": "sampletest1", "quantity": 2}
+                {"id": "kith-sunflower-tee-black", "quantity": 1},
+                {"id": "nike-air-structure", "quantity": 2}
             ]
         }
 
@@ -61,57 +62,57 @@ DefaultItems = [
         'product_data': {
             'name': 'Vans OG Classic Slip On LX',
             'images': ['https://i.imgur.com/kv63LhH.jpg'],
-            'category': 'shoe'
-        }}, },
+        }},             'category': 'shoe'
+     },
     {"name": "nike-air-structure", "data": {
         'currency': 'usd',
         'unit_amount': 12000,
         'product_data': {
             'name': 'Nike Air Structure',
             'images': ['https://i.imgur.com/BltkCS7.jpg'],
-            'category': 'shoe'
 
-        }}},
+        }},  'category': 'shoe'
+     },
     {"name": "adidas-ultraboost-1-dna", "data": {
         'currency': 'usd',
         'unit_amount': 18000,
         'product_data': {
             'name': 'adidas Ultraboost 1.0 DNA',
             'images': ['https://i.imgur.com/91NhCoY.jpg'],
-            'category': 'shoe'
 
         }
-    }},
+    },            'category': 'shoe'
+    },
     {"name": "kith-sunflower-tee", "data": {
         'currency': 'usd',
         'unit_amount': 6500,
         'product_data': {
             'name': 'Kith Sunflower Tee',
             'images': ['https://i.imgur.com/ZGwDmqA.jpg'],
-            'category': 'tee'
 
         }
-    }},
+    },            'category': 'tee'
+    },
     {"name": "kith-sunflower-tee-black", "data": {
         'currency': 'usd',
         'unit_amount': 6500,
         'product_data': {
             'name': 'Kith Sunflower Tee Black',
             'images': ['https://i.imgur.com/CodswYN.jpg'],
-            'category': 'tee'
 
         }
-    }},
+    },            'category': 'tee'
+    },
     {"name": "kith-fish-tank-classic-logo-tee", "data": {
         'currency': 'usd',
         'unit_amount': 6500,
         'product_data': {
             'name': 'Kith Fish Tank Classic Logo Tee',
             'images': ['https://i.imgur.com/dsJCnZ1.jpg'],
-            'category': 'tee'
-
         }
-    }},
+    },
+        'category': 'tee'
+    },
 ]
 
 EmptyItem = {
@@ -182,6 +183,7 @@ def create_checkout_session_single_vue(item: Item):
         )
         return ({'id': checkout_session.id})
     except Exception as e:
+        print(e)
         raise HTTPException(
             status_code=404, detail="some error on server side")
 
